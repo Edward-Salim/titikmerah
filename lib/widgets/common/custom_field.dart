@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'otp_box.dart'; // Import the new OTP Box component
+import '../otp_box.dart'; // Import the new OTP Box component
 
 class OtpVerificationScreen extends StatefulWidget {
   final String phone;

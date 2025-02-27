@@ -1,28 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class TitikMerahLogo extends StatelessWidget {
+  const TitikMerahLogo({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        // Use the logo from assets (Ensure it's in "assets/" and declared in pubspec.yaml)
+        // Make sure "assets/dark_titik_merah.png" is declared in pubspec.yaml
         Image.asset(
-          '../../assets/dark_titik_merah.png', // Change this to your actual filename
-          height: 30, // Adjust height as needed
+          'assets/dark_titik_merah.png', // Update to your actual asset path
+          height: 18, // Slightly larger for better visibility
         ),
-        SizedBox(width: 8),
+        const SizedBox(width: 4),
 
-        // "TitikMerah" Text with Different Colors
+        // "TitikMerah" text with Montserrat font
         RichText(
           text: TextSpan(
-            children: [
+            style: GoogleFonts.montserrat(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+            children: const [
               TextSpan(
                 text: "Titik",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
+                style: TextStyle(color: Colors.white),
               ),
               TextSpan(
                 text: "Merah",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.red),
+                style: TextStyle(color: Colors.red),
               ),
             ],
           ),

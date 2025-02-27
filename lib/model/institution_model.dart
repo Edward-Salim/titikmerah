@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Institution {
+  final String id;
   final String institutionName;
   final String institutionType;
   final String riskLevel;
@@ -11,6 +12,7 @@ class Institution {
   final String location;
 
   Institution({
+    required this.id,
     required this.institutionName,
     required this.institutionType,
     required this.riskLevel,
@@ -24,6 +26,7 @@ class Institution {
   // Convert from Map (useful for JSON or dummy data loading)
   factory Institution.fromMap(Map<String, dynamic> map) {
     return Institution(
+      id: map["id"] ?? "",
       institutionName: map["institutionName"] ?? "",
       institutionType: map["institutionType"] ?? "",
       riskLevel: map["riskLevel"] ?? "",
@@ -38,6 +41,7 @@ class Institution {
   // Convert to Map (useful for saving to database or API)
   Map<String, dynamic> toMap() {
     return {
+      "id": id,
       "institutionName": institutionName,
       "institutionType": institutionType,
       "riskLevel": riskLevel,

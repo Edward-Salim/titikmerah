@@ -55,7 +55,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
             // Title
             Text(
-              'Enter code',
+              'Masukkan kode OTP',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -66,7 +66,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
             // Subtitle
             Text(
-              'We sent a verification code to your phone number\n${widget.phone}',
+              'Kita mengirimkan kode verifikasi ke nomor teleponmu \n${widget.phone}',
               style: TextStyle(fontSize: 16, color: Colors.white70),
             ),
             SizedBox(height: 30),
@@ -92,7 +92,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   // Handle Resend OTP
                 },
                 child: Text(
-                  "Didn't receive any code? Resend Code",
+                  "Tidak menerima kode? Kirim ulang kode",
                   style: TextStyle(color: Colors.amber[200]),
                 ),
               ),
@@ -116,7 +116,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   ),
                 ),
                 child: Text(
-                  'Continue',
+                  'Lanjutkan',
                   style: TextStyle(
                     fontSize: 16,
                     color: isOtpFilled ? Colors.black : Colors.white54,

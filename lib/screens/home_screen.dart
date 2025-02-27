@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:titik_merah/data/institution_data.dart';
+import 'package:titik_merah/services/institution_service.dart';
+import 'package:titik_merah/services/forum_service.dart';
 import 'package:titik_merah/widgets/custom_navbar.dart';
 import 'package:titik_merah/widgets/quick_report/institution/forum_widget.dart';
-import 'package:titik_merah/widgets/quick_report/institution/institution_risk_widget.dart';
-import 'package:titik_merah/widgets/quick_report/quick_report_section.dart';
+import 'package:titik_merah/widgets/quick_report/institution/institution_widget.dart';
+import 'package:titik_merah/widgets/quick_report/quick_report_bottom_section.dart';
 import 'package:titik_merah/widgets/quick_report/report_dialog.dart';
-import 'package:titik_merah/widgets/titik_merah_logo.dart'; // Import logo widget
+import 'package:titik_merah/widgets/titik_merah_logo.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -17,10 +18,14 @@ class _HomeScreenState extends State<HomeScreen> {
   bool reportSubmitted = false;
   int selectedIndex = 0;
 
+  final InstitutionService _institutionService = InstitutionService();
+  final ForumService _forumService = ForumService();
+
   void showReportDialog(String label, Color color) {
     if (reportSubmitted) {
       Fluttertoast.showToast(
-          msg: "Anda hanya bisa melaporkan satu kali per hari.");
+        msg: "Anda hanya bisa melaporkan satu kali per hari.",
+      );
       return;
     }
 
@@ -47,74 +52,103 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Check if the current institution has high corruption risk
     return Scaffold(
       backgroundColor: Colors.black,
+      appBar: AppBar(
+        automaticallyImplyLeading: false, // This removes the back button
+        backgroundColor: Colors.black,
+        elevation: 0,
+        title: TitikMerahLogo(),
+      ),
       body: Stack(
         children: [
+          // Background image
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/background.jpg'),
+                image: AssetImage('assets/background.png'),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.6), BlendMode.darken),
+                  Colors.black.withOpacity(0.6),
+                  BlendMode.darken,
+                ),
               ),
             ),
           ),
-
           Column(
             children: [
-              // Top Section with Logo
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: TitikMerahLogo(), // Add the logo here
-                ),
-              ),
-
+              // Removed the top Padding with TitikMerahLogo since it's now in the AppBar.
               Expanded(
                 child: SingleChildScrollView(
-                  padding: EdgeInsets.only(
-                      bottom: 120), // Ensure spacing for sticky footer
+                  padding: EdgeInsets.only(bottom: 120),
                   child: Column(
                     children: [
-                      // Institution Risk Widget
-                      InstitutionRiskWidget(data: institutionsDummyData[0]),
+                      // InstitutionWidget wrapped in a FutureBuilder using InstitutionService
+                      FutureBuilder(
+                        future: _institutionService.getInstitutionById("inst1"),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return Text(
+                              "Error: ${snapshot.error}",
+                              style: TextStyle(color: Colors.white),
+                            );
+                          } else if (!snapshot.hasData ||
+                              snapshot.data == null) {
+                            return Text(
+                              "No institution data",
+                              style: TextStyle(color: Colors.white),
+                            );
+                          }
+                          return InstitutionWidget(data: snapshot.data!);
+                        },
+                      ),
                       SizedBox(height: 20),
-
-                      // Scrollable Forum Widget
-                      ForumWidget(),
-
-                      SizedBox(height: 65),
+                      // ForumWidget wrapped in a FutureBuilder using ForumService
+                      FutureBuilder(
+                        future: _forumService.getForumById("forum1"),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return Text(
+                              "Error: ${snapshot.error}",
+                              style: TextStyle(color: Colors.white),
+                            );
+                          } else if (!snapshot.hasData ||
+                              snapshot.data == null) {
+                            return Text(
+                              "No forum data",
+                              style: TextStyle(color: Colors.white),
+                            );
+                          }
+                          return ForumWidget(forum: snapshot.data!);
+                        },
+                      ),
+                      SizedBox(height: 45),
                     ],
                   ),
                 ),
               ),
             ],
           ),
-
           // Sticky Footer (Quick Report Section & NavBar)
           Positioned(
             bottom: 0,
             left: 0,
             right: 0,
             child: Container(
-              margin: EdgeInsets.symmetric(
-                  horizontal: 12, vertical: 8), // Adds margin around the footer
-              padding: EdgeInsets.only(
-                  top: 8, bottom: 8), // Adds spacing between Forum and footer
+              padding: EdgeInsets.only(top: 8),
               decoration: BoxDecoration(
-                color: Colors.black, // Solid background (not see-through)
-                borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(12)), // Rounded corners at the top
+                color: Colors.black,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
               ),
               child: Column(
                 children: [
-                  QuickReportSection(),
-                  SizedBox(height: 8), // Space between sections
+                  QuickReportBottomSection(),
                   CustomNavBar(
                     selectedIndex: selectedIndex,
                     onItemTapped: onNavBarItemTapped,

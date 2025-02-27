@@ -38,7 +38,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
 
             // Title
             Text(
-              'Continue with phone',
+              'Lanjutkan dengan Nomor Telepon',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -49,7 +49,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
 
             // Subtitle
             Text(
-              'Enter your phone number to sign in.',
+              'Masukkan nomor telepon Anda untuk masuk.',
               style: TextStyle(fontSize: 16, color: Colors.white70),
             ),
             SizedBox(height: 30),
@@ -65,7 +65,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
               ],
               onChanged: _validateInput,
               decoration: InputDecoration(
-                labelText: 'Phone Number',
+                labelText: '+62...',
                 labelStyle: TextStyle(color: Colors.white54),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -101,7 +101,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
                   ),
                 ),
                 child: Text(
-                  'Continue',
+                  'Lanjutkan',
                   style: TextStyle(
                     fontSize: 16,
                     color: isButtonEnabled ? Colors.black : Colors.white54,

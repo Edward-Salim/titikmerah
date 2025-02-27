@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:titik_merah/model/institution_model.dart';
 import 'package:titik_merah/services/notification_service.dart';
+import 'package:titik_merah/widgets/common/inline_report_stats.dart';
 import 'package:titik_merah/widgets/quick_report/institution/small_info_widget.dart';
 
-class InstitutionRiskWidget extends StatelessWidget {
+class InstitutionWidget extends StatelessWidget {
   final Institution data; // Accepts the full model
 
-  InstitutionRiskWidget({required this.data});
+  InstitutionWidget({required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -59,54 +60,32 @@ class InstitutionRiskWidget extends StatelessWidget {
             child: Text(
               "Tingkat Korupsi: ${data.riskLevel}",
               style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
+          ),
+          SizedBox(height: 8),
+
+          // Inline Report Stats using the new InlineReportStats widget
+          InlineReportStats(
+            redCount: data.redReports,
+            yellowCount: data.yellowReports,
+            greenCount: data.greenReports,
           ),
           SizedBox(height: 10),
 
           // Two-column layout for small info using SmallInfoWidget
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SmallInfoWidget(text: "Tipe: ${data.institutionType}"),
-              SmallInfoWidget(text: "Lokasi: ${data.location}"),
-            ],
-          ),
-          SizedBox(height: 8),
-
-          // Inline Report Stats
-          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildReportStat("🔴", data.redReports, Colors.red),
-              SizedBox(width: 10),
-              _buildReportStat("🟡", data.yellowReports, Colors.yellow),
-              SizedBox(width: 10),
-              _buildReportStat("🟢", data.greenReports, Colors.green),
+              SmallInfoWidget(text: "🏛️: ${data.institutionType}"),
+              SmallInfoWidget(text: "📍: ${data.location}"),
             ],
           ),
         ],
       ),
-    );
-  }
-
-  // Report Stat Widget
-  Widget _buildReportStat(String emoji, int count, Color color) {
-    return Row(
-      children: [
-        Text(
-          emoji,
-          style: TextStyle(fontSize: 16),
-        ),
-        SizedBox(width: 4),
-        Text(
-          "$count",
-          style: TextStyle(
-              fontSize: 14, fontWeight: FontWeight.bold, color: color),
-        ),
-      ],
     );
   }
 }

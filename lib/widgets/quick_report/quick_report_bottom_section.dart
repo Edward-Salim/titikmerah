@@ -3,11 +3,11 @@ import 'package:titik_merah/data/alternative_institutions_data.dart';
 import 'package:titik_merah/model/alternative_institution.dart';
 import 'package:titik_merah/widgets/quick_report/alternative_institution_widget.dart';
 import 'package:titik_merah/widgets/quick_report/info_dialog.dart';
-import 'package:titik_merah/widgets/quick_report/new_post_dialog.dart';
+import 'package:titik_merah/widgets/quick_report/create_thread_dialog.dart';
 import 'package:titik_merah/widgets/quick_report/quick_report_button.dart';
 
-class QuickReportSection extends StatelessWidget {
-  QuickReportSection();
+class QuickReportBottomSection extends StatelessWidget {
+  QuickReportBottomSection();
 
   void _showDialog(BuildContext context, Widget dialogWidget) {
     showDialog(context: context, builder: (context) => dialogWidget);
@@ -17,7 +17,9 @@ class QuickReportSection extends StatelessWidget {
   Widget build(BuildContext context) {
     // Filter institutions that are within 3km
     final List<AlternativeInstitution> nearbyInstitutions =
-        alternativeInstitutions.where((institution) => institution.distance < 3).toList();
+        alternativeInstitutions
+            .where((institution) => institution.distance < 3)
+            .toList();
 
     return Container(
       margin: EdgeInsets.only(bottom: 20, left: 5, right: 5),
@@ -30,7 +32,8 @@ class QuickReportSection extends StatelessWidget {
               // Show Alternative Institution ONLY if it's within 3km
               if (nearbyInstitutions.isNotEmpty)
                 AlternativeInstitutionWidget(
-                  alternativeInstitution: nearbyInstitutions.first, // Display the first nearby institution
+                  alternativeInstitution: nearbyInstitutions
+                      .first, // Display the first nearby institution
                 ),
 
               Row(
@@ -38,7 +41,7 @@ class QuickReportSection extends StatelessWidget {
                   // Add Chat Button
                   IconButton(
                     icon: Icon(Icons.chat, color: Colors.white),
-                    onPressed: () => _showDialog(context, NewPostDialog()),
+                    onPressed: () => _showDialog(context, CreateThreadDialog()),
                   ),
 
                   // "?" Button (Info)

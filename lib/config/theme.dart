@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   static ThemeData themeData = ThemeData(
@@ -18,7 +19,7 @@ class AppTheme {
       ),
       iconTheme: IconThemeData(color: Colors.white),
     ),
-    textTheme: const TextTheme(
+    textTheme: GoogleFonts.montserratTextTheme(const TextTheme(
       bodyLarge: TextStyle(color: Colors.white),
       bodyMedium: TextStyle(color: Colors.white),
       bodySmall: TextStyle(color: Colors.white70),
@@ -27,12 +28,12 @@ class AppTheme {
         fontWeight: FontWeight.bold,
         color: Colors.white,
       ),
-    ),
+    )),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.red, // Netflix red for buttons
         foregroundColor: Colors.white, // White text on buttons
-        padding: EdgeInsets.symmetric(vertical: 14),
+        padding: const EdgeInsets.symmetric(vertical: 14),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
